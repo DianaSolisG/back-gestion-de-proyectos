@@ -1,6 +1,7 @@
 import { gql } from "apollo-server-core";
 
 const tiposAvance = gql `
+
 type Avance {
     _id:ID!
     fecha: Date!
