@@ -1,20 +1,15 @@
-import { Schema, model } from 'mongoose';
-import { Enum_EstadoInscripcion } from '../enums/enums';
-import { ProjectModel } from "../proyecto/proyecto";
-import { UserModel } from "../usuario/usuario";
+import mongoose from 'mongoose';
+import { ProjectModel } from "../proyecto/proyecto.js";
+import { UserModel } from "../usuario/usuario.js";
 
-interface Inscripcion {
-    estado: Enum_EstadoInscripcion;
-    fechaIngreso:Date;
-    fechaEgreso:Date;
-    proyecto: Schema.Types.ObjectId;
-    estudiante: Schema.Types.ObjectId;
-}
+const { Schema, model } = mongoose;
 
-const inscripcionSchema = new Schema<Inscripcion>({
+
+const inscripcionSchema = new Schema({
     estado:{
         type: String,
-        enum: Enum_EstadoInscripcion,
+        enum: ["ACEPTADA","RECHAZADA","PENDIENTE"],
+        default: "PENDIENTE",
         required: true,
     },
     fechaIngreso: {

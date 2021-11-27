@@ -1,4 +1,4 @@
-import { ModeloAvance } from "./avance"
+import { ModeloAvance } from "./avance.js"
 
 
 const resolversAvance = {
@@ -10,7 +10,9 @@ const resolversAvance = {
             return avances;
         },
         filtrarAvance: async (parent, args)=>{
-            const avanceFiltrado = await ModeloAvance.findOne({proyecto:args.idProyecto}).populate('proyecto').populate('creadoPor');
+            const avanceFiltrado = await ModeloAvance.findOne({proyecto:args.idProyecto})
+            .populate('proyecto')
+            .populate('creadoPor');
             return avanceFiltrado;
         }
     },

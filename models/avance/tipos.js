@@ -23,7 +23,6 @@ type Mutation{
         proyecto:String!
         creadoPor:String!
     ):Avance
-    
 }
 
 `;

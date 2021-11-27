@@ -1,5 +1,5 @@
 
-import { ProjectModel } from "./proyecto"
+import { ProjectModel } from "./proyecto.js"
 
 
 const resolversProyecto = {
