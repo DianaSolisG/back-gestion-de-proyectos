@@ -1,6 +1,6 @@
 import { UserModel } from "./usuario.js";
 
-const resolversUsuario = {
+const resolverUsuario = {
     Query:{
         Usuarios: async (parent, args) => {
             const usuarios = await UserModel.find();
@@ -52,4 +52,4 @@ const resolversUsuario = {
 };
 
 
-export {resolversUsuario};
+export {resolverUsuario};

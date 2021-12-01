@@ -22,7 +22,7 @@ enum Enum_EstadoProyecto{
 
 enum Enum_FaseProyecto{
     INICIADO
-    DESARROLLADO
+    DESARROLLO
     TERMINADO
     NULO
 }

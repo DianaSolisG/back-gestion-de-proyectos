@@ -2,10 +2,10 @@
 import { ProjectModel } from "./proyecto.js"
 
 
-const resolversProyecto = {
+const resolverProyecto = {
     Query:{
         Proyectos: async (parent, args) => {
-            const proyectos = await ProjectModel.find().populate('lider');
+            const proyectos = await ProjectModel.find().populate('avances').populate('inscripciones');
             return proyectos;
         }
 
@@ -27,4 +27,4 @@ const resolversProyecto = {
     }
 };
 
-export {resolversProyecto};
+export {resolverProyecto};
