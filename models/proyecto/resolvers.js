@@ -5,7 +5,12 @@ import { ProjectModel } from "./proyecto.js"
 const resolverProyecto = {
     Query:{
         Proyectos: async (parent, args) => {
-            const proyectos = await ProjectModel.find().populate('avances').populate('inscripciones');
+            const proyectos = await ProjectModel.find().populate({
+                path:'avance',
+                populate:({
+                    path:'creado por',
+                })
+            }).populate('lider');
             return proyectos;
         }
 

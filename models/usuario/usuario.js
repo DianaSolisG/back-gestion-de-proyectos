@@ -15,6 +15,10 @@ const { Schema, model } = mongoose;
         message: 'El formato del correo electronico esta malo'
       },
     },
+    password:{
+      type: String,
+      required: true,
+    },
     identificacion: {
       type: String,
       required: true,
