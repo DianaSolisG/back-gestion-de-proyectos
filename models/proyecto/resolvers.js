@@ -4,17 +4,24 @@ import { ProjectModel } from "./proyecto.js"
 
 const resolverProyecto = {
     Query:{
-        Proyectos: async (parent, args) => {
-            const proyectos = await ProjectModel.find().populate({
-                path:'avance',
-                populate:({
-                    path:'creado por',
-                })
-            }).populate('lider');
+        Proyectos: async (parent, args, context) => {
+            if(context.userData.rol === 'ADMINISTRADOR'){
+                const proyectos = await ProjectModel.find()
+                .populate({
+                    path:'avance',
+                    populate:({
+                        path:'creado por',
+                    })
+                }).populate('lider');
+                return proyectos;
+            } else {
+            const proyectos = await ProjectModel.find();
             return proyectos;
         }
 
     },
+},
+
     Mutation: {
         crearProyecto: async (parent, args) => {
             const proyectoCreado = await ProjectModel.create({
@@ -29,7 +36,9 @@ const resolverProyecto = {
             })
             return proyectoCreado;
         }
-    }
-};
+    },
+    
+}
+
 
 export {resolverProyecto};

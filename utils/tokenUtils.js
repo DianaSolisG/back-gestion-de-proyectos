@@ -14,16 +14,17 @@ const validateToken = (token) => {
                 };
             }
         });
+        console.log(verification, token);
         return verification;
     }
 
 }
 
-const generateToquen = (payload)=>{
+const generateToken = (payload)=>{
     return jwt.sign(payload, 'secret', {
         expiresIn: '24h',
     })
 
 }
 
-export {generateToquen, validateToken};
+export {generateToken, validateToken};
