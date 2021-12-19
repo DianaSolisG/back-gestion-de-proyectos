@@ -1,11 +1,20 @@
 import { UserModel } from "./usuario.js";
 import bcrypt from 'bcrypt';
+import { InscriptionModel } from "../inscripcion/inscripcion.js";
+
 
 const resolverUsuario = {
+
+    Usuario:{
+        inscripciones: async (parent, args,context) => {
+            return InscriptionModel.find({ estudiante: parent._id });
+        }
+    },
+
     Query: {
         Usuarios: async (parent, args, context) => {
-            const usuarios = await UserModel.find({ ...args.filtro }).populate('inscripciones');
-            return usuarios;
+            const usuarios = await UserModel.find({ ...args.filtro });
+          return usuarios;
         },
         Usuario: async (parent, args) => {
             const usuario = await UserModel.findOne({ _id: args._id });
@@ -24,6 +33,7 @@ const resolverUsuario = {
                 rol: args.rol,
                 password: hashedPassword,
             });
+
             if(Object.keys(args).includes("estado")){
                 usuarioCreado.estado = args.estado;
             }
@@ -31,7 +41,8 @@ const resolverUsuario = {
         },
 
         editarUsuario: async (parent, args) => {
-            const usuarioEditado = await UserModel.findByIdAndUpdate(args._id,{
+            const usuarioEditado = await UserModel.findByIdAndUpdate(args._id,
+            {
                 nombre: args.nombre,
                 apellido: args.apellido,
                 identificacion: args.identificacion,
@@ -42,6 +53,15 @@ const resolverUsuario = {
             );
             return usuarioEditado;
 
+        },
+
+        editarPerfil: async (parent, args) => {
+            const usuarioEditado = await UserModel.findOneAndUpdate(
+              args._id,
+              { ...args.campos },
+              { new: true }
+            );
+            return usuarioEditado;
         },
 
         eliminarUsuario: async (parent, args) => {

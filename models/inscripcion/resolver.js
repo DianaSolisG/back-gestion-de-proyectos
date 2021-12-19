@@ -11,6 +11,7 @@ const resolverInscripciones = {
             return await UserModel.findOne({ _id: parent.estudiante });
         },
     },
+
     Query:{
         Inscripciones: async (parent, args, context) => {
             let filtro = {};
@@ -29,7 +30,7 @@ const resolverInscripciones = {
                 return inscripciones;
         },
     },
-
+    
     Mutation:{
         crearInscripcion: async (parent, args)=> {
             const inscripcionCreada = await InscriptionModel.create({

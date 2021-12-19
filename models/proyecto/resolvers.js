@@ -1,33 +1,44 @@
 
 import { ProjectModel } from "./proyecto.js"
-
+import { InscriptionModel } from '../inscripcion/inscripcion.js'
+import { UserModel } from "../usuario/usuario.js";
 
 const resolverProyecto = {
-    Query:{
+    Proyecto:{
+        lider: async (parent, args, context) => {
+            const usr = await UserModel.findOne({
+                _id:parent.lider.toString(),
+            });
+            return usr;
+        },
+        inscripciones: async (parent, args, context) => {
+            const inscripciones = await InscriptionModel.find({
+                proyecto: parent._id,
+            })
+        }
+    },
+
+
+    Query: {
         Proyectos: async (parent, args, context) => {
-            if(context.userData.rol === 'ADMINISTRADOR'){
-                const proyectos = await ProjectModel.find()
-                .populate({
-                    path:'avance',
-                    populate:({
-                        path:'creado por',
-                    })
-                }).populate('lider');
-                return proyectos;
-            } else {
+            if (context.userData) {
+                if (context.userData.rol === 'LIDER') {
+                    const proyectos = await ProjectModel.find({ lider: context.userData._id });
+                    return proyectos;
+            } else if (context.userData.rol === 'LIDER') {
+              // const proyectos = await ProjectModel.find({ lider: context.userData._id });
+              // return proyectos;
+            }
+            }
             const proyectos = await ProjectModel.find();
             return proyectos;
-        }
-
-    },
-},
+        },
+      },
 
     Mutation: {
-        crearProyecto: async (parent, args) => {
+        crearProyecto: async (parent, args, context) => {
             const proyectoCreado = await ProjectModel.create({
                 nombre:args.nombre,
-                estado:args.estado,
-                fase:args.fase,
                 fechaInicio:args.fechaInicio,
                 fechaFin:args.fechaFin,
                 presupuesto:args.presupuesto,
@@ -38,9 +49,14 @@ const resolverProyecto = {
         },
 
         editarProyecto: async (parent, args) => {
-            const proyectoEditado = await ProjectModel.findByIdAndUpdate(args._id,{...args.campos}, {new:true});
+            const proyectoEditado = await ProjectModel.findByIdAndUpdate(
+                args._id,
+                { ...args.campos },
+                { new: true }
+            );
+
             return proyectoEditado;
-        },
+          },
 
         crearObjetivo: async (parent, args) => {
             const proyectoConObjetivo = await ProjectModel.findByIdAndUpdate(
@@ -48,7 +64,8 @@ const resolverProyecto = {
                 $addToSet:{
                     objetivos:{...args.campos }
                 }
-            },{new:true});
+            },{new:true}
+            );
             return proyectoConObjetivo;
         },
 

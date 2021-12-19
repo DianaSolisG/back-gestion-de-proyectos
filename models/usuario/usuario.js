@@ -32,6 +32,10 @@ const { Schema, model } = mongoose;
       type: String,
       required: true,
     },
+    foto: {
+      type: String,
+      required: false,
+    },
     rol: {
       type: String,
       required: true,
@@ -45,11 +49,23 @@ const { Schema, model } = mongoose;
 
   });
 
+  userSchema.virtual('proyectosLiderados',{
+    ref:'Proyecto',
+    localField:'_id',
+    foreignField:'lider',
+  })
+
+  userSchema.virtual('avancesCreados',{
+    ref: 'Avance',
+    localField: '_id',
+    foreignField: 'estudiante'
+  });
+
   userSchema.virtual('inscripciones',{
     ref: 'Inscripcion',
     localField:'_id',
     foreignField: 'estudiante'
-  })
+  });
 
 const UserModel = model('User', userSchema);
 
