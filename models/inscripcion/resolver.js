@@ -10,7 +10,7 @@ const resolverInscripciones = {
         estudiante: async (parent, args, context) => {
             return await UserModel.findOne({ _id: parent.estudiante });
         },
-      },
+    },
     Query:{
         Inscripciones: async (parent, args, context) => {
             let filtro = {};
@@ -28,6 +28,7 @@ const resolverInscripciones = {
                 const inscripciones = await InscriptionModel.find({ ...filtro });
                 return inscripciones;
         },
+    },
 
     Mutation:{
         crearInscripcion: async (parent, args)=> {
@@ -39,7 +40,7 @@ const resolverInscripciones = {
         },
         aprobarInscripcion : async (parent, args)=> {
             const inscripcionAprobada = await InscriptionModel.findByIdAndUpdate(args.id, {
-                estado: 'ACEPTADA',
+                estado: 'ACEPTADO',
                 fechaIngreso: Date.now(),
             },
             {new: true}
@@ -48,6 +49,6 @@ const resolverInscripciones = {
         },
     },
 },
-};
+
 
 export {resolverInscripciones};
