@@ -1,12 +1,34 @@
 import { InscriptionModel } from './inscripcion.js'
+import { ProjectModel } from '../proyecto/proyecto.js';
+import { UserModel } from '../usuario/usuario.js';
 
 const resolverInscripciones = {
+    Inscripcion: {
+        proyecto: async (parent, args, context) => {
+            return await ProjectModel.findOne({ _id: parent.proyecto });
+        },
+        estudiante: async (parent, args, context) => {
+            return await UserModel.findOne({ _id: parent.estudiante });
+        },
+      },
     Query:{
-        Inscripciones : async (parent, args)=> {
-            const inscripciones = await InscriptionModel.find();
-            return inscripciones
-        }
-    },
+        Inscripciones: async (parent, args, context) => {
+            let filtro = {};
+                if (context.userData) {
+                    if (context.userData.rol === 'LIDER') {
+                        const projects = await ProjectModel.find({ lider: context.userData._id });
+                        const projectList = projects.map((p) => p._id.toString());
+                        filtro = {
+                            proyecto: {
+                                $in: projectList,
+                            },
+                        };
+                    }
+                }
+                const inscripciones = await InscriptionModel.find({ ...filtro });
+                return inscripciones;
+        },
+
     Mutation:{
         crearInscripcion: async (parent, args)=> {
             const inscripcionCreada = await InscriptionModel.create({
@@ -23,8 +45,9 @@ const resolverInscripciones = {
             {new: true}
             );
             return inscripcionAprobada;
-        }
-    }
-}
+        },
+    },
+},
+};
 
 export {resolverInscripciones};

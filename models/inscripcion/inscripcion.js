@@ -8,7 +8,7 @@ const { Schema, model } = mongoose;
 const inscripcionSchema = new Schema({
     estado:{
         type: String,
-        enum: ["ACEPTADA","RECHAZADA","PENDIENTE"],
+        enum: ["ACEPTADO","RECHAZADA","PENDIENTE"],
         default: "PENDIENTE",
         required: true,
     },

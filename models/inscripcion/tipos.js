@@ -24,6 +24,7 @@ const tiposInscripcion = gql `
             id: String!
         ): Inscripcion
     }
-`;
+`
+;
 
 export { tiposInscripcion };
