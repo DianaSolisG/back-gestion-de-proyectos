@@ -38,6 +38,7 @@ const resolverAutenticacion = {
             identificacion: usuarioEcontrado.identificacion,
             correo: usuarioEcontrado.correo,
             rol: usuarioEcontrado.rol,
+            foto: usuarioEncontrado.foto,
           }),
         };
       }
@@ -46,10 +47,9 @@ const resolverAutenticacion = {
     refreshToken: async (parent, args, context) => {
       console.log('contexto', context);
       if (!context.userData) {
-        return;
-/*        {
+        return {
           error: 'token no valido',
-        }; */
+        };
       } else {
         return {
           token: generateToken({
@@ -59,12 +59,13 @@ const resolverAutenticacion = {
             identificacion: context.userData.identificacion,
             correo: context.userData.correo,
             rol: context.userData.rol,
+            foto: context.userData.foto,
           }),
         };
       }
     },
-
   },
-}
+};
+
 
 export {resolverAutenticacion};
