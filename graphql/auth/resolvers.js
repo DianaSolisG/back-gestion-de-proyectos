@@ -38,7 +38,6 @@ const resolverAutenticacion = {
             identificacion: usuarioEcontrado.identificacion,
             correo: usuarioEcontrado.correo,
             rol: usuarioEcontrado.rol,
-            foto: usuarioEncontrado.foto,
           }),
         };
       }
